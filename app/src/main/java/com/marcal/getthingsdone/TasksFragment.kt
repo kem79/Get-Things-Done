@@ -15,7 +15,7 @@ class TasksFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTasksBinding.inflate(inflater, container, false)
         return binding.root
     }
