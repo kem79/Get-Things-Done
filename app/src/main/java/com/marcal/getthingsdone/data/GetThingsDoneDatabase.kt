@@ -14,7 +14,7 @@ abstract class GetThingsDoneDatabase : RoomDatabase() {
             return Room.databaseBuilder(
                 context,
                 GetThingsDoneDatabase::class.java,
-                "get-things-done"
+                "get-things-done-database"
             ).build()
         }
     }
