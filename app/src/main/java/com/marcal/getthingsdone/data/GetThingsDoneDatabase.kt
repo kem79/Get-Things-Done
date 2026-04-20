@@ -9,13 +9,21 @@ import androidx.room.RoomDatabase
 abstract class GetThingsDoneDatabase : RoomDatabase() {
     abstract fun getTaskDao(): TaskDao
 
+
     companion object {
-        fun createDatabase(context: Context): GetThingsDoneDatabase {
-            return Room.databaseBuilder(
-                context,
-                GetThingsDoneDatabase::class.java,
-                "get-things-done-database"
-            ).build()
+        private var DATABASE_INSTANCE: GetThingsDoneDatabase? = null
+
+        fun getDatabase(context: Context): GetThingsDoneDatabase {
+
+            return DATABASE_INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context,
+                    GetThingsDoneDatabase::class.java,
+                    "get-things-done-database"
+                ).build()
+                DATABASE_INSTANCE = instance
+                instance
+            }
         }
     }
 }

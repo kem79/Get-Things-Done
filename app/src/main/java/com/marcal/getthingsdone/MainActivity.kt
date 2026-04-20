@@ -13,6 +13,7 @@ import com.marcal.getthingsdone.data.GetThingsDoneDatabase
 import com.marcal.getthingsdone.data.Task
 import com.marcal.getthingsdone.databinding.ActivityMainBinding
 import com.marcal.getthingsdone.databinding.DialogAddTaskBinding
+import com.marcal.getthingsdone.ui.tasks.TasksFragment
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
@@ -20,9 +21,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: GetThingsDoneDatabase
     private val taskDao by lazy { database.getTaskDao() }
+    private val taskFragment: TasksFragment = TasksFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        println("Activity ready")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -33,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { displayAddTaskDialog() }
 
-        database = GetThingsDoneDatabase.createDatabase(this)
+        database = GetThingsDoneDatabase.getDatabase(this)
 
     }
 
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                 taskDao.createTask(task)
             }
             dialog.dismiss()
+            taskFragment.fetchAllTasks()
         }
 
         dialog.show()
@@ -63,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     inner class PagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
         override fun createFragment(position: Int): Fragment {
-            return TasksFragment()
+            return taskFragment
         }
 
         override fun getItemCount() = 1
