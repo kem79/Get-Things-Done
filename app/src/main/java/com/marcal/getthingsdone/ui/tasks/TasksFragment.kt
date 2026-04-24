@@ -11,7 +11,7 @@ import com.marcal.getthingsdone.data.TaskDao
 import com.marcal.getthingsdone.databinding.FragmentTasksBinding
 import kotlin.concurrent.thread
 
-class TasksFragment : Fragment() {
+class TasksFragment : Fragment(), TasksAdapter.TaskUpdateListener {
 
     private lateinit var binding: FragmentTasksBinding
     private val taskDao: TaskDao by lazy {
@@ -37,8 +37,14 @@ class TasksFragment : Fragment() {
             val tasks = taskDao.getAllTasks()
 
             requireActivity().runOnUiThread {
-                binding.root.adapter = TasksAdapter(tasks = tasks)
+                binding.root.adapter = TasksAdapter(tasks = tasks, listener = this)
             }
+        }
+    }
+
+    override fun onTaskUpdated(task: Task) {
+        thread {
+            taskDao.updateTask(task)
         }
     }
 
