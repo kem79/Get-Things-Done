@@ -8,9 +8,10 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.marcal.getthingsdone.data.Task
 import com.marcal.getthingsdone.databinding.ItemTaskBinding
 
-class TasksAdapter(val tasks: List<Task>, private val listener: TaskUpdateListener) :
+class TasksAdapter(private val listener: TaskUpdateListener) :
     RecyclerView.Adapter<TasksAdapter.ViewHolder>() {
 
+    private var tasks: List<Task> = listOf()
     override fun getItemCount() = tasks.size
 
     override fun onCreateViewHolder(
@@ -31,6 +32,11 @@ class TasksAdapter(val tasks: List<Task>, private val listener: TaskUpdateListen
         position: Int
     ) {
         holder.bind(tasks[position])
+    }
+
+    fun setTasks(tasks: List<Task>) {
+        this.tasks = tasks
+        notifyDataSetChanged()
     }
 
 

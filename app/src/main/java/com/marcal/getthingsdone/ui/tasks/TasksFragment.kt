@@ -18,12 +18,15 @@ class TasksFragment : Fragment(), TasksAdapter.TaskUpdateListener {
         GetThingsDoneDatabase.getDatabase(requireContext()).getTaskDao()
     }
 
+    private val adapter = TasksAdapter(this)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTasksBinding.inflate(inflater, container, false)
+        binding.root.adapter = adapter
         return binding.root
     }
 
@@ -37,7 +40,7 @@ class TasksFragment : Fragment(), TasksAdapter.TaskUpdateListener {
             val tasks = taskDao.getAllTasks()
 
             requireActivity().runOnUiThread {
-                binding.root.adapter = TasksAdapter(tasks = tasks, listener = this)
+                adapter.setTasks(tasks)
             }
         }
     }
