@@ -45,6 +45,7 @@ class TasksFragment : Fragment(), TasksAdapter.TaskUpdateListener {
     override fun onTaskUpdated(task: Task) {
         thread {
             taskDao.updateTask(task)
+            fetchAllTasks()
         }
     }
 

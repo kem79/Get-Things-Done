@@ -1,5 +1,6 @@
 package com.marcal.getthingsdone.ui.tasks
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +39,12 @@ class TasksAdapter(val tasks: List<Task>, private val listener: TaskUpdateListen
         fun bind(task: Task) {
             binding.textViewTaskTitle.text = task.title
             binding.textViewTaskDetails.text = task.description
+            binding.checkBox.isChecked = task.isComplete
+            if (task.isComplete) {
+                binding.textViewTaskTitle.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                binding.textViewTaskDetails.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+            }
+            binding.toggleStar.isChecked = task.isStarred
             binding.checkBox.addOnCheckedStateChangedListener { _, state ->
                 val updatedTask = when (state) {
                     MaterialCheckBox.STATE_CHECKED -> task.copy(isComplete = true)
